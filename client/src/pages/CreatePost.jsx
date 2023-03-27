@@ -15,9 +15,33 @@ const CreatePost = () => {
   const [generatingImg, setGeneratingImg] = useState(false) //this is used while making contact with api, and while we're waiting to get image
   const [loading, setLoading] = useState(false)
 
-  const generateImage = () => {
-    
-  }
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true); //set to true bc we have started the generation
+        //get back response below
+        // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/dalle', { //this is what he had on github, might need to change mine below once site is live
+        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt: form.prompt,
+          }),
+        });
+        //parse data from above so able to see it
+        const data = await response.json();
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` }); //this is way we're going to save and render our image
+      } catch (err) {
+        alert(err);
+      } finally { //finally does what is coded below regardless of what happens
+        setGeneratingImg(false);
+      }
+    } else {
+      alert('Please provide proper prompt');
+    }
+  };
 
   const handleSubmit = () => {
 
@@ -35,7 +59,7 @@ const CreatePost = () => {
     <section className='max-w-7xl mx-auto'>
       <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Create</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Create imaginative and visually stunning images through Dall-E AI and share them with the community</p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Create imaginative and visually stunning images through Dall-E AI and share them with the community. *NOTE - If not happy with the image generated, press the generate button again</p>
       </div>
 
       <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
