@@ -19,6 +19,49 @@ const Home = () => {
   const [allPosts, setAllPosts] = useState(null);
 
   const [searchText, setSearchText] = useState('')
+  const [searchTimeout, setSearchTimeout] = useState(null);
+  const [searchedResults, setSearchedResults] = useState(null);
+
+  //make call to get all the posts. useEffect is only used at start when the component loads
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+  
+      try {
+        // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/post', { //this is what he had on github instead of below, again we'll have to change from localhost eventually. he also had fetchPosts function outside of the useEffect
+        const response = await fetch('http://localhost:8080/api/v1/post', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (response.ok) { //have to check here if response is ok
+          const result = await response.json();
+          setAllPosts(result.data.reverse()); //have to reverse bc we want to show newest posts at top
+        }
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  //1:52:54
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeout);
+    setSearchText(e.target.value);
+
+    setSearchTimeout(
+      setTimeout(() => {
+        const searchResult = allPosts.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()) || item.prompt.toLowerCase().includes(searchText.toLowerCase()));
+        setSearchedResults(searchResult);
+      }, 500),
+    );
+  };
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -28,7 +71,14 @@ const Home = () => {
       </div>
 
       <div className="mt-16">
-        <FormField />
+        <FormField
+          labelName="Search posts"
+          type="text"
+          name="text"
+          placeholder="Search something..."
+          value={searchText}
+          handleChange={handleSearchChange}
+        />
       </div>
 
       <div className="mt-10">
@@ -40,7 +90,7 @@ const Home = () => {
           <>
             {searchText && (
               <h2 className="font-medium text-[#666e75] text-xl mb-3">
-                Showing Resuls for <span className="text-[#222328]">{searchText}</span>:
+                Showing Results for <span className="text-[#222328]">{searchText}</span>:
               </h2>
             )}
             {/* render through our images */}
@@ -48,12 +98,12 @@ const Home = () => {
               {searchText ? (
                 <RenderCards
                   // Below, the data 'searchedResults' and 'allPosts' are strings, but later on it will be an array of actual data
-                  data={[]}
+                  data={searchedResults}
                   title="No Search Results Found"
                 />
               ) : (
                 <RenderCards
-                  data={[]}
+                  data={allPosts}
                   title="No Posts Yet"
                 />
               )}

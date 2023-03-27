@@ -27,7 +27,7 @@ const CreatePost = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            prompt: form.prompt,
+            prompt: form.prompt, //we're getting this from postRoutes.js from req.body
           }),
         });
         //parse data from above so able to see it
@@ -43,9 +43,34 @@ const CreatePost = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); //ensure browser doesn't reload the application
 
-  }
+    if (form.prompt && form.photo) {
+      setLoading(true);
+      try {
+        // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/post', { //this is what he had on github - will eventually need something like this like as well as other routes bc it's not gonna be localhost
+        const response = await fetch('http://localhost:8080/api/v1/post', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(form), //we're getting this from postRoutes.js from req.body
+          // body: JSON.stringify({ ...form }), //he had this on github instead of above
+        });
+
+        await response.json();
+        // alert('Success'); //he had this on github
+        navigate('/');
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      alert('Please generate an image with proper details');
+    }
+  };
 
   // make sure we can type values into our form fields
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value }) //take keypress event, call the setForm state, spread the form, and update the name with the value user just typed in
