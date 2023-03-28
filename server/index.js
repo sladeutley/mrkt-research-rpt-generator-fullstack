@@ -12,7 +12,9 @@ const app = express() //initiliaze express application
 
 //middleware - i think this is anytime you have 'app.use'
 app.use(cors()) //adds additional middlewares to express
+
 app.use(express.json({ limit: '50mb' })) //adds another additional middleware
+// app.use(express.json({ limit: '100mb' })) //adds another additional middleware
 // we've created api endpoints that we can connect / hook on to from our front end side (*these routes are initially still empty, so still have to add additional routes that we can call from the front end)
 app.use('/api/v1/post', postRoutes)
 app.use('/api/v1/dalle', dalleRoutes)

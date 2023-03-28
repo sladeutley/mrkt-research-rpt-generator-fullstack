@@ -13,7 +13,8 @@ const App = () => {
         {/* Above, we're creating a Link component */}
           {/* <img src={logo} alt="logo" className="w-28 object-contain" /> */}
           {/* Above, is where we could create a logo image */}
-          <h1>Generatorrr</h1>
+          {/* <h1 className="font-extrabold text-[#222328] text-[32px]">Generatrr</h1> */}
+          <h1 className="font-extrabold text-[#7385e1] text-[32px]">Generatrr</h1>
         </Link>
 
         <Link to="/create-post" className="font-inter font-medium bg-[#6469ff] text-white px-4 py-2 rounded-md">

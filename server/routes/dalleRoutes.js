@@ -21,18 +21,20 @@ router.route('/').get((req, res) => {
 
 router.route('/').post(async (req, res) => { //need to make it async because it will take some time - **I'm starting to think this is the reason you use a promise or async, when you have an instance where you might have to wait for something, that way it won't run until it's done sending or getting what it needs
   try {
-    const { prompt } = req.body; //this is coming from our front end side
-
+    const { object } = req.body; //this is coming from our front end side
     //getting image here
-    const aiResponse = await openai.createImage({
-      prompt,
-      n: 1, //1 image
-      size: '1024x1024', //size of image
-      response_format: 'b64_json',
-    });
+    // const aiResponse = await openai.createImage({
+    //   prompt,
+    //   n: 1, //1 image
+    //   size: '1024x1024', //size of image
+    //   response_format: 'b64_json',
+    // });
 
-    const image = aiResponse.data.data[0].b64_json; //get image out of above response
-    res.status(200).json({ photo: image }); //pass in a photo that will be equal to the image - *send it to the front end
+    const response = await openai.createChatCompletion(object);
+
+    // const image = aiResponse.data.data[0].b64_json; //get image out of above response
+    // res.status(200).json({ photo: image }); //pass in a photo that will be equal to the image - *send it to the front end
+    res.status(200).json({ text: response.data.choices[0].message.content })
   } catch (error) {
     console.error(error);
     res.status(500).send(error?.response.data.error.message || 'Something went wrong');
