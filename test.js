@@ -1,47 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Loader } from '../components';
+// _id, prompt, industry, productsAndServices, keyMarketSegments, competitiveAnalysis
 
-const ReportDetail = () => {
-  const [loading, setLoading] = useState(false);
-  const [post, setPost] = useState(null)
-  const { id } = useParams()
-  console.log('id', id)
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      setLoading(true);
-  
-      try {
-        const response = await fetch(`http://localhost:8080/api/v1/post/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-  
-        if (response.ok) {
-          const result = await response.json();
-          console.log('result', result.data)
-          setPost(result.data);
-          console.log('post', post)
-        }
-      } catch (err) {
-        alert(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    fetchPost();
-  }, [id]);
-
-  return (
-    <section className="max-w-7xl mx-auto">
-      {console.log('post2',post)}
-      {post.prompt}
-    </section>
-  )
-}
-
-export default ReportDetail
+<div className="border border-gray-300 px-5 pt-2 pb-5 mt-4 max-w-[1200px] rounded-sm">
+  <br/>
+  <h1 className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for the {post ? post.prompt : null} Industry</h1>
+  <br/>
+  <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Industry</h3>
+  <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{post ? post.industry : null}</p>
+  <br/>
+  <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Products and Services</h3>
+  <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{post ? post.productsAndServices : null}</p>
+  <br/>
+  <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Key Market Segments</h3>
+  <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{post ? post.keyMarketSegments : null}</p>
+  <br/>
+  <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Competitive Analysis</h3>
+  <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{post ? post.competitiveAnalysis : null}</p>
+</div>

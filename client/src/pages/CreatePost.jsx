@@ -263,7 +263,7 @@ const CreatePost = () => {
 
         await response.json();
         // alert('Success'); //he had this on github
-        navigate('/');
+        navigate('/share');
       } catch (err) {
         alert(err);
       } finally {
@@ -291,18 +291,18 @@ const CreatePost = () => {
     <div>
       <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community.</p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community. Note, this is version 1 and only focuses on the U.S. Market with more markets and features on the way.</p>
       </div>
       <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
-          <FormField 
-            labelName="Your Name"
+          {/* <FormField 
+            labelName="Alias"
             type="text"
             name="name"
             placeholder="Joey Diaz"
             value={form.name}
             handleChange={handleChange}
-          />
+          /> */}
           <FormField 
             labelName="Industry"
             type="text"
@@ -347,19 +347,19 @@ const CreatePost = () => {
         {/* <ReusuableContentAndForm form={form} handleChange={handleChange} handleSurpriseMe={handleSurpriseMe} handleSubmit={handleSubmit} /> */}
         <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community.</p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community. Note, this is version 1 and only focuses on the U.S. Market with more markets and features on the way.</p>
         </div>
         {/* BELOW WAS mt-16. IS THAT BETTER? */}
         <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
-            <FormField 
-              labelName="Your Name"
+            {/* <FormField 
+              labelName="Alias"
               type="text"
               name="name"
               placeholder="Joey Diaz"
               value={form.name}
               handleChange={handleChange}
-            />
+            /> */}
             <FormField 
               labelName="Industry"
               type="text"
@@ -436,12 +436,12 @@ const CreatePost = () => {
       <section className='max-w-7xl mx-auto'>
         <div>
           <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
-          <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community.</p>
+          <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community. Note, this is version 1 and only focuses on the U.S. Market with more markets and features on the way.</p>
         </div>
         <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
             <FormField 
-              labelName="Your Name"
+              labelName="Enter a Name or Alias"
               type="text"
               name="name"
               placeholder="Joey Diaz"
