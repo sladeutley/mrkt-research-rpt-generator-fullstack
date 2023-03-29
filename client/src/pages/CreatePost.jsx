@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { preview } from '../assets';
@@ -7,10 +7,17 @@ import { FormField, Loader } from '../components';
 
 const CreatePost = () => {
   const navigate = useNavigate() //this will allow us to navigate back to the homepage, once the post is created
+  const targetSectionRef = useRef(null); //for scrolling to report at end
+  
 
   const [form, setForm] = useState({
     name: '',
     prompt: '',
+    industry: '',
+    productsAndServices: '',
+    keyMarketSegments: '',
+    competitiveAnalysis: '',
+    // photo: `${preview}/jpeg;base64,${preview}`,
   })
   const [generatingImg, setGeneratingImg] = useState(false) //this is used while making contact with api, and while we're waiting to get image
   const [loading, setLoading] = useState(false)
@@ -48,6 +55,10 @@ const CreatePost = () => {
   useEffect(() => {
     console.log('counter', counter)
   }, [counter]);
+
+  useEffect(() => {
+    console.log('form', form)
+  }, [form]);
 
   const generate1 = async () => {
     if (form.prompt) {
@@ -190,16 +201,47 @@ const CreatePost = () => {
     } catch (err) {
       alert(err);
     } finally { //finally does what is coded below regardless of what happens -PUT THIS AT END on LAST ONE
-      setGeneratingImg(false);
-      // setTimeout(() => {
-      //   setGeneratingImg(false);
+      // setGeneratingImg(false);
+      setTimeout(() => {
+        setGeneratingImg(false);
+        // scroll to section
+        if (targetSectionRef.current) {
+          window.scrollTo({
+            top: targetSectionRef.current.offsetTop,
+            behavior: "smooth",
+          });
+          targetSectionRef.current.scrollIntoView({ behavior: "smooth" });
+        }
       //   // setCounter(4)
-      // }, 3000); // Set a delay of 10000 milliseconds (10 seconds) - probably is too long - I Think that was causing major issues - why i was getting that 'SyntaxError: Unexpected token 'R', "Rate limit"... is not valid JSON' error, or atleast when i had setCounter(4) in there
+      }, 5000); // THIS MAY CAUSE MAJOR ISSUES. Set a delay of 10000 milliseconds (10 seconds) - probably is too long - I Think that was causing major issues - why i was getting that 'SyntaxError: Unexpected token 'R', "Rate limit"... is not valid JSON' error, or atleast when i had setCounter(4) in there
     }
   };
 
   const revealResults = () => {
+    setForm(prevState => ({
+      ...prevState,
+      industry: `${responses.answer1}`,
+      productsAndServices: `${responses.answer2}`,
+      keyMarketSegments: `${responses.answer3}`,
+      competitiveAnalysis: `${responses.answer4}`,
+    }))
     setFinalResults(true)
+
+    // scroll to the target section - this isn't working here, but seems to be above in generate4 function for just when the button 'reveal results' shows up
+    // attempt 1
+    // targetSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    // attempt 2
+    // if (targetSectionRef.current) {
+    //   targetSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    // }
+    // attempt 3
+    // if (targetSectionRef.current) {
+    //   window.scrollTo({
+    //     top: targetSectionRef.current.offsetTop,
+    //     behavior: "smooth",
+    //   });
+    //   targetSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    // }
   }
 
   const handleSubmit = async (e) => {
@@ -216,6 +258,7 @@ const CreatePost = () => {
           },
           body: JSON.stringify(form), //we're getting this from postRoutes.js from req.body
           // body: JSON.stringify({ ...form }), //he had this on github instead of above
+          // body: JSON.stringify(responses),
         });
 
         await response.json();
@@ -243,6 +286,7 @@ const CreatePost = () => {
 
   //Tomorrow - 1) need to finish the formatting below 2) do I need to do a setTimeout for the final one? or promise to make sure all the data is back? seems to be taking a little bit before it's done (console log is still going) 3) get the submit button working for a pdf. 4) Change content to be relevant 5) put a lock on the prompt part of form after generate button is done and unlock after done. 6) eventually put relevant questions 7) maybe add button instead of generate, to clear form bc you can just press enter and it submits page - think of way to make this better
 
+  //I WANTED TO USE THIS reusable component, but it only let me put in 1 keystroke at a time in the input field before exiting out of the field -> So I'm manually adding it now on each condition. Actually I'll keep it in middle bc loader doesn't allow you to change anything anyway
   const ReusuableContentAndForm = ({ form, handleChange, handleSurpriseMe, handleSubmit }) => (
     <div>
       <div>
@@ -270,7 +314,7 @@ const CreatePost = () => {
             handleSurpriseMe={handleSurpriseMe}
           />
         </div>
-        <div class="flex flex-row gap-5">
+        <div className="flex flex-row gap-5">
           <div className="mt-5">
             <button
               type="button"
@@ -281,15 +325,16 @@ const CreatePost = () => {
               {generatingImg ? 'Generating...' : 'Generate'}
             </button>
           </div>
-          <div className="mt-5">
-            {/* <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p> */}
+          {/* <div className="mt-5">
+            <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p>
             <button
               type="submit"
               className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
             >
               {loading ? 'Sharing...' : 'Share with the Community'}
+              SHOULD ABOVE BE GONE UNTIL REPORT IS OVER?
             </button>
-          </div>
+          </div> */}
         </div>
       </form>
     </div>
@@ -299,7 +344,46 @@ const CreatePost = () => {
   if (counter === 0) {
     return (
       <section className='max-w-7xl mx-auto'>
-        <ReusuableContentAndForm form={form} handleChange={handleChange} handleSurpriseMe={handleSurpriseMe} handleSubmit={handleSubmit} />
+        {/* <ReusuableContentAndForm form={form} handleChange={handleChange} handleSurpriseMe={handleSurpriseMe} handleSubmit={handleSubmit} /> */}
+        <div>
+        <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community.</p>
+        </div>
+        {/* BELOW WAS mt-16. IS THAT BETTER? */}
+        <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-5">
+            <FormField 
+              labelName="Your Name"
+              type="text"
+              name="name"
+              placeholder="Joey Diaz"
+              value={form.name}
+              handleChange={handleChange}
+            />
+            <FormField 
+              labelName="Industry"
+              type="text"
+              name="prompt"
+              placeholder="Insert Industry Keyword Here. For example, 'coffee'."
+              value={form.prompt}
+              handleChange={handleChange}
+              isSurpriseMe
+              handleSurpriseMe={handleSurpriseMe}
+            />
+          </div>
+          <div className="flex flex-row gap-5">
+            <div className="mt-5">
+              <button
+                type="button"
+                onClick={generate1}
+                // onClick={generateImage}
+                className="mt-3 text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                {generatingImg ? 'Generating...' : 'Generate'}
+              </button>
+            </div>
+          </div>
+        </form>
         {generatingImg && (
           <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
             <Loader />
@@ -350,7 +434,55 @@ const CreatePost = () => {
   } else if (counter === 4) {
     return (
       <section className='max-w-7xl mx-auto'>
-        <ReusuableContentAndForm form={form} handleChange={handleChange} handleSurpriseMe={handleSurpriseMe} handleSubmit={handleSubmit} />
+        <div>
+          <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
+          <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community.</p>
+        </div>
+        <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
+          <div className="flex flex-col gap-5">
+            <FormField 
+              labelName="Your Name"
+              type="text"
+              name="name"
+              placeholder="Joey Diaz"
+              value={form.name}
+              handleChange={handleChange}
+            />
+            <FormField 
+              labelName="Industry"
+              type="text"
+              name="prompt"
+              placeholder="Insert Industry Keyword Here. For example, 'coffee'."
+              value={form.prompt}
+              handleChange={handleChange}
+              isSurpriseMe
+              handleSurpriseMe={handleSurpriseMe}
+            />
+          </div>
+          <div className="flex flex-row gap-5">
+            <div className="mt-5">
+              <button
+                type="button"
+                onClick={generate1}
+                // onClick={generateImage}
+                className="mt-3 text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                {generatingImg ? 'Generating...' : 'Regenerate'}
+              </button>
+            </div>
+            {finalResults && (
+            <div className="mt-5">
+              {/* <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p> */}
+              <button
+                type="submit"
+                className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+              >
+                {loading ? 'Sharing...' : 'Share with the Community'}
+              </button>
+            </div>
+            )}
+          </div>
+        </form>
           {generatingImg && (
             <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
               <Loader />
@@ -359,19 +491,21 @@ const CreatePost = () => {
             </div>
           )}
         <div>
-          {(finalResults === false) && (
-          <div className="text-center">
-            <br/>
-            <h1 className="font-extrabold text-[#222328] text-[32px]">Report Generated Successfully &#10004;</h1>
-            <button className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center" onClick={revealResults}>
-              Reveal results
-            </button>
-          </div>
+          {(finalResults === false && generatingImg === false) && (
+          // {(generatingImg === false) && (
+            <div ref={targetSectionRef} className="text-center">
+              <br/><br/>
+              <h1 className="font-extrabold text-[#222328] text-[40px]">Report Generated Successfully &#10004;</h1>
+              {/* <br/> */}
+              <button className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-lg w-full sm:w-auto px-5 py-3.5 text-center" onClick={revealResults}>
+                Reveal results
+              </button>
+            </div>
           )}
           {finalResults && (
             <div className="border border-gray-300 px-5 pt-2 pb-5 mt-10">
               <br/>
-              <h1 className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for {promptUppercase} Industry</h1>
+              <h1 ref={targetSectionRef} className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for the {promptUppercase} Industry</h1>
               <br/>
               <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Industry</h3>
               <p style={{ whiteSpace: "pre-wrap" }}>{responses.answer1}</p>
@@ -386,6 +520,7 @@ const CreatePost = () => {
               <p style={{ whiteSpace: "pre-wrap" }}>{responses.answer4}</p>
             </div>
           )} 
+          {/* <div ref={targetSectionRef}></div> */}
         </div>
       </section>
     )

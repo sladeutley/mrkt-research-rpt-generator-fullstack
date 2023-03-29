@@ -28,14 +28,20 @@ router.route('/').get(async (req, res) => {
 // CREATE A POST
 router.route('/').post(async (req, res) => {
   try {
-    const { name, prompt, photo } = req.body; //get all the data we're getting from frontend
-    const photoUrl = await cloudinary.uploader.upload(photo); //upload the photo url to cloudinary
+    // const { name, prompt, industry, productsAndServices, keyMarketSegments, competitiveAnalysis, photo  } = req.body; //get all the data we're getting from frontend
+    const { name, prompt, industry, productsAndServices, keyMarketSegments, competitiveAnalysis  } = req.body; //get all the data we're getting from frontend
+    
+    // const photoUrl = await cloudinary.uploader.upload(photo); //upload the photo url to cloudinary
 
     //create new post in our database
     const newPost = await Post.create({
       name,
       prompt,
-      photo: photoUrl.url,
+      industry,
+      productsAndServices,
+      keyMarketSegments,
+      competitiveAnalysis
+      // photo: photoUrl.url,
     });
 
     // res.status(200).json({ success: true, data: newPost }); //this is what he had on github instead of below (which is what he did in video) - not sure difference
