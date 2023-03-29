@@ -503,21 +503,21 @@ const CreatePost = () => {
             </div>
           )}
           {finalResults && (
-            <div className="border border-gray-300 px-5 pt-2 pb-5 mt-10">
+            <div className="border border-gray-300 px-5 pt-2 pb-5 mt-10 max-w-[1200px] rounded-sm">
               <br/>
               <h1 ref={targetSectionRef} className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for the {promptUppercase} Industry</h1>
               <br/>
               <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Industry</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{responses.answer1}</p>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer1}</p>
               <br/>
               <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Products and Services</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{responses.answer2}</p>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer2}</p>
               <br/>
               <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Key Market Segments</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{responses.answer3}</p>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer3}</p>
               <br/>
               <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Competitive Analysis</h3>
-              <p style={{ whiteSpace: "pre-wrap" }}>{responses.answer4}</p>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer4}</p>
             </div>
           )} 
           {/* <div ref={targetSectionRef}></div> */}

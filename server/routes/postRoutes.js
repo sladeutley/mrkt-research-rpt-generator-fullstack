@@ -25,12 +25,27 @@ router.route('/').get(async (req, res) => {
   }
 });
 
+// GET A SINGLE POST BY ID
+router.route('/:id').get(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ success: false, message: 'Post not found' });
+    }
+    res.status(200).json({ success: true, data: post });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Fetching post failed, please try again' });
+  }
+});
+
+
 // CREATE A POST
 router.route('/').post(async (req, res) => {
   try {
     // const { name, prompt, industry, productsAndServices, keyMarketSegments, competitiveAnalysis, photo  } = req.body; //get all the data we're getting from frontend
     const { name, prompt, industry, productsAndServices, keyMarketSegments, competitiveAnalysis  } = req.body; //get all the data we're getting from frontend
-    
+
     // const photoUrl = await cloudinary.uploader.upload(photo); //upload the photo url to cloudinary
 
     //create new post in our database

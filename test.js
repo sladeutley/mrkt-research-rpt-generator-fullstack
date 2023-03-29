@@ -1,25 +1,47 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { Loader } from '../components';
 
-import { download } from '../assets';
-import { downloadImage } from '../utils';
+const ReportDetail = () => {
+  const [loading, setLoading] = useState(false);
+  const [post, setPost] = useState(null)
+  const { id } = useParams()
+  console.log('id', id)
 
-const Card = ({ _id, name, prompt, industry, productsAndServices, keyMarketSegments, competitiveAnalysis }) => ( //this is connected to what we're getting on renderCards function in Home component
-  <div className="rounded-xl group relative shadow-card hover:shadow-cardhover card style={{ backgroundColor: 'blue', width: '300px', height: '300px' }}">
-    <div className="group-hover:flex flex-col max-h-[94.5%] hidden absolute bottom-0 left-0 right-0 bg-[#10131f] m-2 p-4 rounded-md">
-      <p className="text-white text-sm overflow-y-auto prompt">{prompt}</p>
+  useEffect(() => {
+    const fetchPost = async () => {
+      setLoading(true);
+  
+      try {
+        const response = await fetch(`http://localhost:8080/api/v1/post/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          console.log('result', result.data)
+          setPost(result.data);
+          console.log('post', post)
+        }
+      } catch (err) {
+        alert(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchPost();
+  }, [id]);
 
-      <div className="mt-5 flex justify-between items-center gap-2">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full object-cover bg-green-700 flex justify-center items-center text-white text-xs font-bold">{name[0]}</div>
-          <p className="text-white text-sm">{name}</p>
-        </div>
-        <button type="button" onClick={() => downloadImage(_id, photo)} className="outline-none bg-transparent border-none">
-          <img src={download} alt="download" className="w-6 h-6 object-contain invert" />
-        </button>
-      </div>
-    </div>
-  </div>
-);
+  return (
+    <section className="max-w-7xl mx-auto">
+      {console.log('post2',post)}
+      {post.prompt}
+    </section>
+  )
+}
 
-
-export default Card
+export default ReportDetail

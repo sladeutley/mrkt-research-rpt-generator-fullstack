@@ -60,7 +60,7 @@ const Home = () => {
       setTimeout(() => {
         const searchResult = allPosts.filter((item) => item.name.toLowerCase().includes(searchText.toLowerCase()) || item.prompt.toLowerCase().includes(searchText.toLowerCase()));
         setSearchedResults(searchResult);
-      }, 500),
+      }, 50),//****Changed this from 500 to 50, if this is causing any errors
     );
   };
 

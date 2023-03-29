@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 import { logo } from './assets';
-import { Home, CreatePost } from './pages';
+import { Home, CreatePost, ReportDetail } from './pages';
 
 const App = () => {
   return (
@@ -25,6 +25,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/report/:id" element={<ReportDetail />} />
         </Routes>
       </main>
     </BrowserRouter>
