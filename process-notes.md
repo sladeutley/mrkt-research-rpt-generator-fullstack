@@ -5,3 +5,4 @@ in another terminal tab, in entire project folder, use that to push to github
 
 test for if github is working
 second test for if github is working
+test 3
