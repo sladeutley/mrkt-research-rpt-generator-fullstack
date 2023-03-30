@@ -15,6 +15,27 @@ export function getRandomPrompt(prompt) {
   return randomPrompt
 }
 
+//copy to clipboard
+//deprecated version (no execCommand)
+// export const copyToClipboard = (text) => {
+//   const el = document.createElement("textarea");
+//   el.value = text;
+//   document.body.appendChild(el);
+//   el.select();
+//   document.execCommand("copy");
+//   document.body.removeChild(el);
+// };
+
+export const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      console.log("Text copied to clipboard");
+    })
+    .catch((err) => {
+      console.error("Failed to copy text: ", err);
+    });
+};
+
 export async function downloadImage(_id, photo) {
   FileSaver.saveAs(photo, `download-${_id}.jpg`); //this implements function
 }

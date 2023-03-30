@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { preview } from '../assets';
-import { getRandomPrompt } from '../utils';
+import { getRandomPrompt, copyToClipboard } from '../utils';
 import { FormField, Loader } from '../components';
 
 const CreatePost = () => {
@@ -32,9 +32,27 @@ const CreatePost = () => {
     ]
   });
 
+  const [isCopied, setIsCopied] = useState(false);
+
+  // const handleCopyClick = () => {
+  //   copyToClipboard("Text to be copied");
+  //   setIsCopied(true);
+  // };
+  const handleCopyClick = () => {
+    const textToCopy = 
+      "Market Research Report for the" + promptUppercase + " industry \n\n" + 
+      "Industry \n" + responses.answer1 + "\n\n" +
+      "Products and Services \n" + responses.answer2 + "\n\n" +
+      "Key Market Segments \n" + responses.answer3 + "\n\n" +
+      "Competitive Analysis \n" + responses.answer4;
+    copyToClipboard(textToCopy);
+    setIsCopied(true);
+  };
+
   useEffect(() => {
     function addNewUserMessage() {
       const newUserMessage = { role: "user", content: `Who won the ${form.prompt} in 2020?` };
+      // const newUserMessage = { role: "user", content: `Generate five MBA-level paragraphs focusing on the ${form.prompt} industry in the United States. These paragraphs should outline the precise value of this market in 2022 as well as in 2027 with proper citations and sources. You are a senior consultant from Deloitte.  These paragraphs should also talk about key trends affecting this market.` };
       setObject(prevState => ({
         ...prevState,
         messages: [prevState.messages[0], newUserMessage]
@@ -87,6 +105,7 @@ const CreatePost = () => {
         }))
         const newAssistantMessage = { role: "assistant", content: data.text };
         const newUserMessage = { role: "user", content: `Where was it played?` };
+        // const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the key product offerings within the ${form.prompt} industry in the United States. Please provide the precise demand in percentages from each service. You are a senior consultant from Deloitte. Make sure all of the research that you do averages various reports throughout the internet.` };
         setObject(prevState => ({
           ...prevState,
           messages: [...prevState.messages, newAssistantMessage, newUserMessage]
@@ -124,6 +143,7 @@ const CreatePost = () => {
       }))
       const newAssistantMessage = { role: "assistant", content: data.text };
       const newUserMessage = { role: "user", content: `How many scores?` };
+      // const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the key market segments within the ${form.prompt} industry in the United States. Please provide the precise demand in percentages from each market. You are a senior consultant from Deloitte. Make sure all of the research that you do averages various reports throughout the internet.` };
       setObject(prevState => ({
         ...prevState,
         messages: [...prevState.messages, newAssistantMessage, newUserMessage]
@@ -158,6 +178,7 @@ const CreatePost = () => {
       }))
       const newAssistantMessage = { role: "assistant", content: data.text };
       const newUserMessage = { role: "user", content: `Who won MVP?` };
+      // const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the competitive landscape of the ${form.prompt} industry in the United States. The report should describe the three largest companies involved in the ${form.prompt} industry with their most recent profit and loss statements. The report should also mention how much control in precise percentages that these businesses have in the market.` };
       setObject(prevState => ({
         ...prevState,
         messages: [...prevState.messages, newAssistantMessage, newUserMessage]
@@ -387,7 +408,7 @@ const CreatePost = () => {
         {generatingImg && (
           <div className="absolute inset-0 z-0 flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg">
             <Loader />
-            <p>0% Completed</p>
+            <p>Initializing</p>
           </div>
         )}
       </section>
@@ -459,13 +480,14 @@ const CreatePost = () => {
               handleSurpriseMe={handleSurpriseMe}
             />
           </div>
-          <div className="flex flex-row gap-5">
+          {/* <div className="flex flex-row gap-5"> */}
+          <div className="flex flex-row flex-wrap justify-between sm:justify-start sm:gap-5">
             <div className="mt-5">
               <button
                 type="button"
                 onClick={generate1}
                 // onClick={generateImage}
-                className="mt-3 text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                className="mt-3 text-white bg-green-700 font-medium rounded-md text-sm w-full sm:w-auto px-3 py-2.5 sm:px-5 text-center"
               >
                 {generatingImg ? 'Generating...' : 'Regenerate'}
               </button>
@@ -475,7 +497,7 @@ const CreatePost = () => {
               {/* <p className="mt-2 text-[#666e75] text-[14px]">** Once you have created the image you want, you can share it with others in the community **</p> */}
               <button
                 type="submit"
-                className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+                className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-3 py-2.5 sm:px-5 text-center"
               >
                 {loading ? 'Sharing...' : 'Share with the Community'}
               </button>
@@ -504,7 +526,12 @@ const CreatePost = () => {
           )}
           {finalResults && (
             <div className="border border-gray-300 px-5 pt-2 pb-5 mt-10 max-w-[1200px] rounded-sm">
-              <br/>
+              <div className="flex justify-end py-2">
+                <button onClick={handleCopyClick} className="inline-flex items-center px-4 py-1.5 bg-blue-500 border border-transparent rounded-md font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                  {isCopied ? <span className="mr-2" role="img" aria-label="checkmark">&#x2713;</span> : null}
+                  {isCopied ? "Copied!" : "Copy to clipboard"}
+                </button>
+              </div>
               <h1 ref={targetSectionRef} className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for the {promptUppercase} Industry</h1>
               <br/>
               <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Industry</h3>
