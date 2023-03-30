@@ -51,8 +51,8 @@ const CreatePost = () => {
 
   useEffect(() => {
     function addNewUserMessage() {
-      const newUserMessage = { role: "user", content: `Who won the ${form.prompt} in 2020?` };
-      // const newUserMessage = { role: "user", content: `Generate five MBA-level paragraphs focusing on the ${form.prompt} industry in the United States. These paragraphs should outline the precise value of this market in 2022 as well as in 2027 with proper citations and sources. You are a senior consultant from Deloitte.  These paragraphs should also talk about key trends affecting this market.` };
+      // const newUserMessage = { role: "user", content: `Who won the ${form.prompt} in 2020?` };
+      const newUserMessage = { role: "user", content: `Generate five MBA-level paragraphs focusing on the ${form.prompt} industry in the United States. These paragraphs should outline the precise value of this market in 2022 as well as in 2027 with proper citations and sources. You are a senior consultant from Deloitte.  These paragraphs should also talk about key trends affecting this market.` };
       setObject(prevState => ({
         ...prevState,
         messages: [prevState.messages[0], newUserMessage]
@@ -81,6 +81,7 @@ const CreatePost = () => {
   const generate1 = async () => {
     if (form.prompt) {
       try {
+        setCounter(0) // *I hope this doesn't mess it up - did this so when press regenerate at end it starts back at 0 so 'initializing' shows up
         setGeneratingImg(true); //set to true bc we have started the generation
         setFinalResults(false)
         
@@ -104,8 +105,8 @@ const CreatePost = () => {
           answer1: `${data.text}`
         }))
         const newAssistantMessage = { role: "assistant", content: data.text };
-        const newUserMessage = { role: "user", content: `Where was it played?` };
-        // const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the key product offerings within the ${form.prompt} industry in the United States. Please provide the precise demand in percentages from each service. You are a senior consultant from Deloitte. Make sure all of the research that you do averages various reports throughout the internet.` };
+        // const newUserMessage = { role: "user", content: `Where was it played?` };
+        const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the key product offerings within the ${form.prompt} industry in the United States. Please provide the precise demand in percentages from each service. You are a senior consultant from Deloitte. Make sure all of the research that you do averages various reports throughout the internet.` };
         setObject(prevState => ({
           ...prevState,
           messages: [...prevState.messages, newAssistantMessage, newUserMessage]
@@ -142,8 +143,8 @@ const CreatePost = () => {
         answer2: `${data.text}`
       }))
       const newAssistantMessage = { role: "assistant", content: data.text };
-      const newUserMessage = { role: "user", content: `How many scores?` };
-      // const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the key market segments within the ${form.prompt} industry in the United States. Please provide the precise demand in percentages from each market. You are a senior consultant from Deloitte. Make sure all of the research that you do averages various reports throughout the internet.` };
+      // const newUserMessage = { role: "user", content: `How many scores?` };
+      const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the key market segments within the ${form.prompt} industry in the United States. Please provide the precise demand in percentages from each market. You are a senior consultant from Deloitte. Make sure all of the research that you do averages various reports throughout the internet.` };
       setObject(prevState => ({
         ...prevState,
         messages: [...prevState.messages, newAssistantMessage, newUserMessage]
@@ -177,8 +178,8 @@ const CreatePost = () => {
         answer3: `${data.text}`
       }))
       const newAssistantMessage = { role: "assistant", content: data.text };
-      const newUserMessage = { role: "user", content: `Who won MVP?` };
-      // const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the competitive landscape of the ${form.prompt} industry in the United States. The report should describe the three largest companies involved in the ${form.prompt} industry with their most recent profit and loss statements. The report should also mention how much control in precise percentages that these businesses have in the market.` };
+      // const newUserMessage = { role: "user", content: `Who won MVP?` };
+      const newUserMessage = { role: "user", content: `Generate MBA level and original paragraphs that outline the competitive landscape of the ${form.prompt} industry in the United States. The report should describe the three largest companies involved in the ${form.prompt} industry with their most recent profit and loss statements. The report should also mention how much control in precise percentages that these businesses have in the market.` };
       setObject(prevState => ({
         ...prevState,
         messages: [...prevState.messages, newAssistantMessage, newUserMessage]
@@ -312,7 +313,7 @@ const CreatePost = () => {
     <div>
       <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community. Note, this is version 1 and only focuses on the U.S. Market with more markets and features on the way.</p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Simply input your desired industry to obtain a customized market analysis report. If the results don't quite match your expectations, click "generate" for another version. After crafting your report, feel free to share it within the community. Presenting Version One, concentrating on the U.S. Market, with expanded markets and features on the horizon.</p>
       </div>
       <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-5">
@@ -328,7 +329,7 @@ const CreatePost = () => {
             labelName="Industry"
             type="text"
             name="prompt"
-            placeholder="Insert Industry Keyword Here. For example, 'coffee'."
+            placeholder="Insert Industry Keyword Here. For example, 'coffee shop'."
             value={form.prompt}
             handleChange={handleChange}
             isSurpriseMe
@@ -368,7 +369,7 @@ const CreatePost = () => {
         {/* <ReusuableContentAndForm form={form} handleChange={handleChange} handleSurpriseMe={handleSurpriseMe} handleSubmit={handleSubmit} /> */}
         <div>
         <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
-        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community. Note, this is version 1 and only focuses on the U.S. Market with more markets and features on the way.</p>
+        <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Simply input your desired industry to obtain a customized market analysis report. If the results don't quite match your expectations, click "generate" for another version. After crafting your report, feel free to share it within the community. Presenting Version One, concentrating on the U.S. Market, with expanded markets and features on the horizon.</p>
         </div>
         {/* BELOW WAS mt-16. IS THAT BETTER? */}
         <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
@@ -385,7 +386,7 @@ const CreatePost = () => {
               labelName="Industry"
               type="text"
               name="prompt"
-              placeholder="Insert Industry Keyword Here. For example, 'coffee'."
+              placeholder="Insert Industry Keyword Here. For example, 'coffee shop'."
               value={form.prompt}
               handleChange={handleChange}
               isSurpriseMe
@@ -457,7 +458,7 @@ const CreatePost = () => {
       <section className='max-w-7xl mx-auto'>
         <div>
           <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
-          <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Type in your name and search term for an industry you'd like a market research report on. If you're not happy with the results, press the generate button again for another version. Once you've created the report, you can then share it with others in the community. Note, this is version 1 and only focuses on the U.S. Market with more markets and features on the way.</p>
+          <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Simply input your desired industry to obtain a customized market analysis report. If the results don't quite match your expectations, click "generate" for another version. After crafting your report, feel free to share it within the community. Presenting Version One, concentrating on the U.S. Market, with expanded markets and features on the horizon.</p>
         </div>
         <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
@@ -473,7 +474,7 @@ const CreatePost = () => {
               labelName="Industry"
               type="text"
               name="prompt"
-              placeholder="Insert Industry Keyword Here. For example, 'coffee'."
+              placeholder="Insert Industry Keyword Here. For example, 'coffee shop'."
               value={form.prompt}
               handleChange={handleChange}
               isSurpriseMe
