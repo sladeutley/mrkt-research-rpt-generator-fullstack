@@ -4,3 +4,4 @@ in client folder, 'npm run dev', then split the screen, cd into server folder, '
 in another terminal tab, in entire project folder, use that to push to github
 
 test for if github is working
+second test for if github is working
