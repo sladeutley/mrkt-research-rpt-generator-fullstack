@@ -30,7 +30,7 @@ const Home = () => {
   
       try {
         // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/post', { //this is what he had on github instead of below, again we'll have to change from localhost eventually. he also had fetchPosts function outside of the useEffect
-        const response = await fetch('http://localhost:8080/api/v1/post', {
+        const response = await fetch('https://generatrr.onrender.com/api/v1/post', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

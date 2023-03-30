@@ -12,7 +12,7 @@ const ReportDetail = () => {
       setLoading(true);
   
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/post/${id}`, {
+        const response = await fetch(`https://generatrr.onrender.com/api/v1/post/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

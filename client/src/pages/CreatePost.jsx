@@ -87,7 +87,7 @@ const CreatePost = () => {
         
         //get back response below
         // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/dalle', { //this is what he had on github, might need to change mine below once site is live
-        const response = await fetch('http://localhost:8080/api/v1/dalle', {
+        const response = await fetch('https://generatrr.onrender.com/api/v1/dalle', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ const CreatePost = () => {
     try {
       //get back response below
       // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/dalle', { //this is what he had on github, might need to change mine below once site is live
-      const response = await fetch('http://localhost:8080/api/v1/dalle', {
+      const response = await fetch('https://generatrr.onrender.com/api/v1/dalle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -160,7 +160,7 @@ const CreatePost = () => {
     try {
       //get back response below
       // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/dalle', { //this is what he had on github, might need to change mine below once site is live
-      const response = await fetch('http://localhost:8080/api/v1/dalle', {
+      const response = await fetch('https://generatrr.onrender.com/api/v1/dalle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ const CreatePost = () => {
     try {
       //get back response below
       // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/dalle', { //this is what he had on github, might need to change mine below once site is live
-      const response = await fetch('http://localhost:8080/api/v1/dalle', {
+      const response = await fetch('https://generatrr.onrender.com/api/v1/dalle', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -273,7 +273,7 @@ const CreatePost = () => {
       setLoading(true);
       try {
         // const response = await fetch('https://dalle-arbb.onrender.com/api/v1/post', { //this is what he had on github - will eventually need something like this like as well as other routes bc it's not gonna be localhost
-        const response = await fetch('http://localhost:8080/api/v1/post', {
+        const response = await fetch('https://generatrr.onrender.com/api/v1/post', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
