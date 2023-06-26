@@ -1,14 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
 
 import { logo } from './assets';
 import { Home, CreatePost, ReportDetail } from './pages';
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <AppContent />
-    </BrowserRouter>
+    </HashRouter>
+    // <BrowserRouter>
+    //   <AppContent />
+    // </BrowserRouter>
   );
 };
 
