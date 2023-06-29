@@ -288,7 +288,7 @@ const CreatePost = () => {
         setLoading(false);
       }
     } else {
-      alert('Please generate an image with proper details');
+      alert('Please enter an industry then click "Generate"');
     }
   };
 
@@ -387,6 +387,7 @@ const CreatePost = () => {
               handleChange={handleChange}
               isSurpriseMe
               handleSurpriseMe={handleSurpriseMe}
+              onSubmit={generate1}
             />
           </div>
           <div className="flex flex-row gap-5">
