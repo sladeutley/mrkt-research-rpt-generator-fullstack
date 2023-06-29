@@ -34,10 +34,6 @@ const CreatePost = () => {
 
   const [isCopied, setIsCopied] = useState(false);
 
-  // const handleCopyClick = () => {
-  //   copyToClipboard("Text to be copied");
-  //   setIsCopied(true);
-  // };
   const handleCopyClick = () => {
     const textToCopy = 
       "Market Research Report for the" + promptUppercase + " industry \n\n" + 
@@ -279,7 +275,7 @@ const CreatePost = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(form), //we're getting this from postRoutes.js from req.body
-          // body: JSON.stringify({ ...form }), //he had this on github instead of above
+          // body: JSON.stringify({ ...form }), 
           // body: JSON.stringify(responses),
         });
 
