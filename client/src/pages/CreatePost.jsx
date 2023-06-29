@@ -457,6 +457,43 @@ const CreatePost = () => {
           <h1 className="font-extrabold text-[#222328] text-[32px]">Generate Market Research Reports Instantly</h1>
           <p className="mt-2 text-[#666e75] text-[14px] max-w-[500px]">Simply input your desired industry to obtain a customized market analysis report. If the results don't quite match your expectations, click "generate" for another version. After crafting your report, feel free to share it within the community. Presenting Version One, concentrating on the U.S. Market, with expanded markets and features on the horizon.</p>
         </div>
+        <div>
+          {(finalResults === false && generatingImg === false) && (
+          // {(generatingImg === false) && (
+            <div ref={targetSectionRef} className="text-center">
+              <br/><br/>
+              <h1 className="font-extrabold text-[#222328] text-[40px]">Report Generated Successfully &#10004;</h1>
+              {/* <br/> */}
+              <button className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-lg w-full sm:w-auto px-5 py-3.5 text-center" onClick={revealResults}>
+                Reveal results
+              </button>
+            </div>
+          )}
+          {finalResults && (
+            <div className="border border-gray-300 px-5 pt-2 pb-5 mt-10 max-w-[1200px] rounded-sm">
+              <div className="flex justify-end py-2">
+                <button onClick={handleCopyClick} className="inline-flex items-center px-4 py-1.5 bg-blue-500 border border-transparent rounded-md font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                  {isCopied ? <span className="mr-2" role="img" aria-label="checkmark">&#x2713;</span> : null}
+                  {isCopied ? "Copied!" : "Copy to clipboard"}
+                </button>
+              </div>
+              <h1 ref={targetSectionRef} className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for the {promptUppercase} Industry</h1>
+              <br/>
+              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Industry</h3>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer1}</p>
+              <br/>
+              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Products and Services</h3>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer2}</p>
+              <br/>
+              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Key Market Segments</h3>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer3}</p>
+              <br/>
+              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Competitive Analysis</h3>
+              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer4}</p>
+            </div>
+          )} 
+          {/* <div ref={targetSectionRef}></div> */}
+        </div>
         <form className="mt-16 max-w-3xl" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-5">
             <FormField 
@@ -510,44 +547,7 @@ const CreatePost = () => {
               {/* PUT COOL FLASHING EFFECTS ON CODE ABOVE? Or other completed sections */}
             </div>
           )}
-        <div>
-          {(finalResults === false && generatingImg === false) && (
-          // {(generatingImg === false) && (
-            <div className="text-center">
-            {/* <div ref={targetSectionRef} className="text-center"> */}
-              <br/><br/>
-              <h1 className="font-extrabold text-[#222328] text-[40px]">Report Generated Successfully &#10004;</h1>
-              {/* <br/> */}
-              <button ref={targetSectionRef} className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-lg w-full sm:w-auto px-5 py-3.5 text-center" onClick={revealResults}>
-                Reveal results
-              </button>
-            </div>
-          )}
-          {finalResults && (
-            <div className="border border-gray-300 px-5 pt-2 pb-5 mt-10 max-w-[1200px] rounded-sm">
-              <div className="flex justify-end py-2">
-                <button onClick={handleCopyClick} className="inline-flex items-center px-4 py-1.5 bg-blue-500 border border-transparent rounded-md font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                  {isCopied ? <span className="mr-2" role="img" aria-label="checkmark">&#x2713;</span> : null}
-                  {isCopied ? "Copied!" : "Copy to clipboard"}
-                </button>
-              </div>
-              <h1 ref={targetSectionRef} className="text-center font-extrabold text-[#222328] text-[32px]">Market Research Report for the {promptUppercase} Industry</h1>
-              <br/>
-              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Industry</h3>
-              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer1}</p>
-              <br/>
-              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Products and Services</h3>
-              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer2}</p>
-              <br/>
-              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Key Market Segments</h3>
-              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer3}</p>
-              <br/>
-              <h3 className="font-extrabold text-[#222328] text-[24px] mb-2">Competitive Analysis</h3>
-              <p className="mt-2 text-[#666e75] text-[16px]" style={{ whiteSpace: "pre-wrap" }}>{responses.answer4}</p>
-            </div>
-          )} 
-          {/* <div ref={targetSectionRef}></div> */}
-        </div>
+
       </section>
     )
   }
