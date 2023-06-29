@@ -512,11 +512,12 @@ const CreatePost = () => {
         <div>
           {(finalResults === false && generatingImg === false) && (
           // {(generatingImg === false) && (
-            <div ref={targetSectionRef} className="text-center">
+            <div className="text-center">
+            {/* <div ref={targetSectionRef} className="text-center"> */}
               <br/><br/>
               <h1 className="font-extrabold text-[#222328] text-[40px]">Report Generated Successfully &#10004;</h1>
               {/* <br/> */}
-              <button className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-lg w-full sm:w-auto px-5 py-3.5 text-center" onClick={revealResults}>
+              <button ref={targetSectionRef} className="mt-3 text-white bg-[#6469ff] font-medium rounded-md text-lg w-full sm:w-auto px-5 py-3.5 text-center" onClick={revealResults}>
                 Reveal results
               </button>
             </div>
